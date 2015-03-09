@@ -91,19 +91,24 @@ module Schild
       end
     end
 
-    # wählt alle berufsbezogenen Fächer des gewählten Schülers in angegeben Halbjahr.
-    def berufsbezogen
-      noten.select{ |n| n.fach.Fachgruppe_ID == 20 && !n.NotenKrz.nil? }
+    # Hilfsmethode für die folgenden Methoden
+    def faecher_nach_id(id)
+      noten.sort_by{ |n| n.Sortierung }.select{ |n| n.fach.Fachgruppe_ID == id && n.AufZeugnis == '+' }
     end
 
     # wählt alle berufsübergreifenden Fächer des gewählten Schülers in angegeben Halbjahr.
     def berufsuebergreifend
-      noten.select{ |n| n.fach.Fachgruppe_ID == 10 && !n.NotenKrz.nil? }
+      faecher_nach_id 10
+    end
+
+    # wählt alle berufsbezogenen Fächer des gewählten Schülers in angegeben Halbjahr.
+    def berufsbezogen
+      faecher_nach_id 20
     end
 
     # wählt alle Fächer des Differenzierungsbreichs des gewählten Schülers in angegeben Halbjahr.
     def differenzierungsbereich
-      noten.select{ |n| n.fach.Fachgruppe_ID == 30 && !n.NotenKrz.nil? }
+      faecher_nach_id 30
     end
 
     # wählt alle Fächergruppen aus.

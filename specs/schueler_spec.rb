@@ -42,7 +42,7 @@ describe Schueler do
 
     it 'gibt Fächer aus allen Fächergruppen zurück' do
       fg = @sm.zweites_halbjahr(2013).faechergruppen.flatten.count
-      fg.must_equal (@sm.zweites_halbjahr(2013).noten.select{|n|!n.NotenKrz.nil?}).count
+      fg.must_equal (@sm.zweites_halbjahr(2013).noten.select{|n|n.AufZeugnis == '+'}).count
     end
   end
 
