@@ -93,7 +93,7 @@ module Schild
 
     # Hilfsmethode für die folgenden Methoden
     def faecher_nach_id(id)
-      noten.sort_by{ |n| n.Sortierung }.select{ |n| n.fach.Fachgruppe_ID == id && n.AufZeugnis == '+' }
+      noten.sort_by{ |n| n.fach.SortierungS2 }.select{ |n| n.fach.Fachgruppe_ID == id && n.AufZeugnis == '+' }
     end
 
     # wählt alle berufsübergreifenden Fächer des gewählten Schülers in angegeben Halbjahr.
@@ -151,6 +151,8 @@ module Schild
         "ungenügend"
       when 'NB'
         "----------"
+      when 'E3'
+        "teilgenommen"
       end
     end
 
@@ -175,6 +177,18 @@ module Schild
     # gibt die Schulnummer zurück
     def self.schulnummer
       self.first.SchulNr
+    end
+
+    def self.v_name_schulleiter
+      "#{self.first.SchulleiterVorname[0]}. #{self.first.SchulleiterName}"
+    end
+
+    def self.schulleiter_in
+      self.first.SchulleiterGeschlecht == 3 ? "Schulleiter" : "Schulleiterin"
+    end
+
+    def self.ort
+      self.first.Ort
     end
   end
 end
