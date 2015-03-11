@@ -129,6 +129,12 @@ module Schild
     end
   end
 
+    # gibt das aktuelle Schuljahr als String im Format "2014/15" zurück.
+    def schuljahr
+      jahr = self.Jahr
+      "#{jahr}/#{jahr-1999}"
+    end
+
   # Assoziation für Noten
   class Noten < Sequel::Model(:schuelerleistungsdaten)
     many_to_one :abschnitt, :class => :Abschnitt, :key => :Abschnitt_ID

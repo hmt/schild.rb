@@ -103,5 +103,9 @@ describe Schueler do
     it 'wählt das angegebene Jahr und Halbjahr aus' do
       @sm.halbjahr(2013, 2).ID.must_equal 14478
     end
+
+    it 'gibt passendes Schuljahr zurück' do
+      @sm.halbjahr(2013, 2).schuljahr.must_equal "2013/14"
+    end
   end
 end
