@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = %q{schild bietet eine Ruby-Schnittstelle zu SchilD-NRW-Datenbanken.}
   spec.homepage      = "https://github.com/hmt/schild"
   spec.license       = "Creative Commons Namensnennung 4.0 International Lizenz."
+  spec.required_ruby_version = ">= 2.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
