@@ -127,13 +127,13 @@ module Schild
     def klassenlehrer_in
       klassenlehrer.Geschlecht == "3" ? "Klassenlehrer" : "Klassenlehrerin"
     end
-  end
 
     # gibt das aktuelle Schuljahr als String im Format "2014/15" zurück.
     def schuljahr
       jahr = self.Jahr
       "#{jahr}/#{jahr-1999}"
     end
+  end
 
   # Assoziation für Noten
   class Noten < Sequel::Model(:schuelerleistungsdaten)
