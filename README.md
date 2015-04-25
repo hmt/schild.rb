@@ -4,6 +4,8 @@
 
 Mit `schild` kann man eigenen Skripte schreiben und komfortabel auf die Datenbank zugreifen. Lediglich ein paar Kenntnisse in der Programmiersprache Ruby werden erwartet. Mit Hilfe der [Prawn-Bibliothek](http://prawnpdf.org/) lassen sich sehr schöne und v.a. genau beschriebene PDF-Dokumente erstellen, die ganz ohne grafische Oberfläche auskommen und vollständig programmiert werden.
 
+Auch möglich ist die Nutzung von HTML und CSS zur Erzeugung von Dokumenten. Dazu eigenet sich bespielsweise [slim](http://slim-lang.com).
+
 Um `schild` nutzen zu können muss es zuerst installiert werden:
 
 ```sh
@@ -92,6 +94,22 @@ In diesem Beispiel wurde der erste Schüler der klasse B13B aus dem Datensatz `S
 Alle zur Verfügung stehenden Hilfsmethoden werden in den API-Docs erläutert.
 
 Ziel von `schild` ist es, möglichst viele Daten aus der Datenbank komfortabel zur Verfügung zu stellen.
+
+## Erweiterte Funktionalität
+Der Formulardesigner in Schild ignoriert fehlende Felder. Das kann `schild` auch. Anstelle der in der Datenbank verwendenten Tabellenspalten, die mit Großbuchstaben geschrieben werden, bietet `schild` die Möglichkeit Kleinbuchstaben zu verwenden:
+
+```ruby
+s = Schueler.first
+=> #<Schild::Schueler @values={:ID=>1, ........}>
+
+s.Bemerkungen
+=> nil
+
+s.bemerkungen
+=> ""
+```
+
+Mit Hilfe dieser zusätzlichen Methoden können Fehlermeldungen in den erstellten Berichten komfortabel umgangen werden. Je nach Bedarf kann auf Typensicherheit gesetzt werden oder etwas mehr Freiheit.
 
 ## Das sollte beachtet werden
 `schild` läuft nur unter Ruby. Es ist wahrscheinlich möglich auch über JRuby andere Sprachen zu verwenden, die auf der JVM laufen. Also Java zum Beispiel. Gleiches gilt für Python. Leider nicht getestet.

@@ -1,9 +1,48 @@
-require "schild/version"
+require 'schild/version'
 require 'sequel'
+
+# String und Symbol werden um snake_case ergänzt, das die Schild-Tabellen umbenennt
+module CoreExtensions
+  module String
+    def snake_case
+      return downcase if match(/\A[A-Z]+\z/)
+      gsub(/([A-Z]+)([A-Z][a-z])/, '\1_\2').
+        gsub(/([a-z])([A-Z])/, '\1_\2').
+        downcase
+    end
+  end
+
+  module Symbol
+    def snake_case
+      to_s.snake_case
+    end
+  end
+end
+
+# Schild hat teilweise nil in DB-Feldern. SchildTypeSaver gibt entweder einen
+# "Fehlt"-String zurück oder bei strftime das 1899 Datum zurück.
+module SchildTypeSaver
+  Symbol.include CoreExtensions::Symbol
+  String.include CoreExtensions::String
+
+# bei include wird für jede Spalte in der Schild-Tabelle eine Ersatzmethode
+# erstellt, die bei nil ein Null-Objekt erstellt.
+  def self.included(klass)
+    klass.columns.each do  |column|
+      name = column.snake_case
+      define_method(name) { public_send(column) || Null.new("")}
+    end
+  end
+
+  class Null < String
+    def strftime(args)
+      Time.new("1899").strftime(args)
+    end
+  end
+end
 
 # Das Schild Modul, das alle Klassen für die Datenbankanbindung bereitstellt
 module Schild
-
   # ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
   DB = Sequel.connect(:adapter=>ENV['S_ADAPTER'], :host=>ENV['S_HOST'], :user=>ENV['S_USER'], :password=>ENV['S_PASSWORD'], :database=>ENV['S_DB'])
 
@@ -14,6 +53,8 @@ module Schild
 
   # Stellt die Schüler-Tabelle samt Assoziationen bereit.
   class Schueler < Sequel::Model(:schueler)
+    include SchildTypeSaver
+
     many_to_one :fachklasse, :class => :Fachklasse, :key => :Fachklasse_ID
     one_to_many :abschnitte, :class => :Abschnitt
 
@@ -60,16 +101,22 @@ module Schild
 
   # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.
   class Fachklasse < Sequel::Model(:eigeneschule_fachklassen)
+    include SchildTypeSaver
+
     one_to_one :schueler
   end
 
   # Assoziation für Lehrer, hauptsächlich für Klassenlehrer
   class Klassenlehrer < Sequel::Model(:k_lehrer)
+    include SchildTypeSaver
+
     one_to_one :abschnitt, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
   end
 
   # Ist die Assoziation, die Halbjahre, sog. Abschnitte zurückgibt.
   class Abschnitt < Sequel::Model(:schuelerlernabschnittsdaten)
+    include SchildTypeSaver
+
     many_to_one :schueler, :class => :Schueler, :key => :Schueler_ID
     one_to_many :noten, :class => :Noten
     many_to_one :klassenlehrer, :class => :Klassenlehrer, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
@@ -137,6 +184,8 @@ module Schild
 
   # Assoziation für Noten
   class Noten < Sequel::Model(:schuelerleistungsdaten)
+    include SchildTypeSaver
+
     many_to_one :abschnitt, :class => :Abschnitt, :key => :Abschnitt_ID
     many_to_one :fach, :class => :Faecher, :key => :Fach_ID
 
@@ -175,11 +224,15 @@ module Schild
 
   # Assoziation für Fächer
   class Faecher < Sequel::Model(:eigeneschule_faecher)
+    include SchildTypeSaver
+
     one_to_one :noten
   end
 
   # Schul-Tabelle mit vereinfachtem Zugriff auf Datenfelder.
   class Schule < Sequel::Model(:eigeneschule)
+    include SchildTypeSaver
+
     # gibt die Schulnummer zurück
     def self.schulnummer
       self.first.SchulNr
