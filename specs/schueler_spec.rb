@@ -69,6 +69,11 @@ describe Schueler do
       @sm.zweites_halbjahr(2013).noten[5].note.must_equal "gut"
     end
 
+    it 'gibt die Textbezeichnung auch bei ungeraden Noten zurück' do
+      Schueler[178].erstes_halbjahr(2010).noten[0].note.must_equal "mangelhaft"
+      Schueler[178].erstes_halbjahr(2010).noten[0].NotenKrz.must_equal "5-"
+    end
+
     it 'gibt die volle Fachbezeichnung zurück' do
       @sm.zweites_halbjahr(2013).noten[5].bezeichnung.must_equal "Farb- und Formveränderung"
     end

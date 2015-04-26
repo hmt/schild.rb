@@ -204,20 +204,24 @@ module Schild
     # Notenbezeichnung als String
     def note
       case self.NotenKrz
-      when "1"
+      when "1", "1+", "1-"
         "sehr gut"
-      when "2"
+      when "2", "2+", "2-"
         "gut"
-      when "3"
+      when "3", "3+", "3-"
         "befriedigend"
-      when "4"
+      when "2", "4+", "4-"
         "ausreichend"
-      when "5"
+      when "5", "5+", "5-"
         "mangelhaft"
       when "6"
         "ungenügend"
       when 'NB'
         "----------"
+      when "E1"
+        "mit besonderem Erfolg teilgenommen"
+      when "E2"
+        "mit Erfolg teilgenommen"
       when 'E3'
         "teilgenommen"
       end
