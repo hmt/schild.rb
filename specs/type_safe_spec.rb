@@ -1,11 +1,26 @@
 require "#{File.dirname(__FILE__)}/spec_helper"
 
 describe Schueler do
-  describe 'typen sicherheit von objekten' do
-  before do
-    # lade einen Standardschueler
-    @sm = Schueler.where(:Status => 2, :Geloescht => "-", :Gesperrt => "-").first
+  describe 'null-Objekte passen sich den DB-Typen an' do
+    before do
+      # lade einen Standardschueler
+      @sm = Schueler.where(:Status => 2, :Geloescht => "-", :Gesperrt => "-").first
+    end
+
+    it 'gibt ein DateTime bei Daten zurück' do
+      @sm.geburtsdatum.must_be_instance_of DateTime
+    end
+
+    it 'gibt String für Text zurück' do
+      @sm.bemerkungen.must_be_instance_of String
+    end
   end
+
+  describe 'null-Objekte geben immer etwas zurück' do
+    before do
+      # lade einen Standardschueler
+      @sm = Schueler.where(:Status => 2, :Geloescht => "-", :Gesperrt => "-").first
+    end
 
     it 'gibt nil zurück, wenn leer' do
       @sm.Bemerkungen.must_equal nil

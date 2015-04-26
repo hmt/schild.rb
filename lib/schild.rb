@@ -1,6 +1,7 @@
 require 'schild/version'
 require 'sequel'
 
+# erst Ruby 2.1.0 macht include zu einer public-Methode
 if Module.private_method_defined? :include
   class Module
     public :include
@@ -36,13 +37,18 @@ module SchildTypeSaver
   def self.included(klass)
     klass.columns.each do  |column|
       name = column.snake_case
-      define_method(name) { public_send(column) || Null.new("")}
+      define_method(name) { public_send(column) || create_null_object(klass, column)}
     end
   end
 
-  class Null < String
-    def strftime(args)
-      Time.new("1899").strftime(args)
+  def create_null_object(klass, column)
+    k = DB.schema_type_class(klass.db_schema[column][:type])
+    if k.class == Array
+      # Sequel stellt :datetime als [Time, DateTime] dar
+      DateTime.new(1899)
+    else
+      # alle anderen types werden als Klasse zurückgegeben
+      k.new
     end
   end
 end
