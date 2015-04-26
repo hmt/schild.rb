@@ -1,6 +1,12 @@
 require 'schild/version'
 require 'sequel'
 
+if Module.private_method_defined? :include
+  class Module
+    public :include
+  end
+end
+
 # String und Symbol werden um snake_case ergänzt, das die Schild-Tabellen umbenennt
 module CoreExtensions
   module String
@@ -25,8 +31,8 @@ module SchildTypeSaver
   Symbol.include CoreExtensions::Symbol
   String.include CoreExtensions::String
 
-# bei include wird für jede Spalte in der Schild-Tabelle eine Ersatzmethode
-# erstellt, die bei nil ein Null-Objekt erstellt.
+  # bei include wird für jede Spalte in der Schild-Tabelle eine Ersatzmethode
+  # erstellt, die bei nil ein Null-Objekt erstellt.
   def self.included(klass)
     klass.columns.each do  |column|
       name = column.snake_case
