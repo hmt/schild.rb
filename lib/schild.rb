@@ -210,7 +210,7 @@ module Schild
         "gut"
       when "3", "3+", "3-"
         "befriedigend"
-      when "2", "4+", "4-"
+      when "4", "4+", "4-"
         "ausreichend"
       when "5", "5+", "5-"
         "mangelhaft"
