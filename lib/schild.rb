@@ -115,7 +115,7 @@ module Schild
   class Fachklasse < Sequel::Model(:eigeneschule_fachklassen)
     include SchildTypeSaver
 
-    one_to_one :schueler
+    one_to_many :schueler
   end
 
   # Assoziation für Lehrer, hauptsächlich für Klassenlehrer
