@@ -22,9 +22,9 @@ describe Schueler do
     end
 
     it 'gibt Konferenzdatum zurück (Lernabschnitte)' do
-      skip
       # offenbar keine in der Testdatenbank eingetragen
-      @sm.erstes_halbjahr(2013)[:Konferenzdatum].must_be_instance_of Date
+      # deshalb Default-Objekt anfordern
+      @sm.erstes_halbjahr(2013).konferenzdatum.must_be_instance_of DateTime
     end
 
     it 'gibt berufsbezogene Fächer aus den angegebenen Lernabschnitten zurück' do
@@ -36,8 +36,7 @@ describe Schueler do
     end
 
     it 'gibt Fächer aus dem Differenzierungsbereich zurück über angegebenen Lernabschnitt' do
-      skip
-      @sm.erstes_halbjahr(2014).differenzierungsbereich.map{|n|n.fach.FachKrz}.must_include 'FF'
+      Schueler[394].erstes_halbjahr(2007).differenzierungsbereich.map{|n|n.fach.FachKrz}.must_include 'CHDIFF'
     end
 
     it 'gibt Fächer aus allen Fächergruppen zurück' do
