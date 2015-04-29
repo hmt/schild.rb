@@ -46,6 +46,8 @@ module SchildTypeSaver
     if k.class == Array
       # Sequel stellt :datetime als [Time, DateTime] dar
       DateTime.new(1899)
+    elsif k == Integer
+      0
     else
       # alle anderen types werden als Klasse zurückgegeben
       k.new

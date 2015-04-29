@@ -14,6 +14,10 @@ describe Schueler do
     it 'gibt String für Text zurück' do
       @sm.bemerkungen.must_be_instance_of String
     end
+
+    it 'gibt 0 bei fehlendem Integer zurück' do
+      skip
+    end
   end
 
   describe 'null-Objekte geben immer etwas zurück' do
