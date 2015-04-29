@@ -64,6 +64,16 @@ describe Schueler do
       @sm.schuljahr.must_equal "2014/15"
     end
 
+    it 'gibt passende Bezeichnung Schüler oder Schülerin zurück' do
+      @sm.schueler_in.must_equal "Schülerin"
+      Schueler[24].schueler_in.must_equal "Schüler"
+    end
+
+    it 'gibt passende Bezeichnung Studierender oder Studierende zurück' do
+      @sm.studierende_r.must_equal "Studierende"
+      Schueler[24].studierende_r.must_equal "Studierender"
+    end
+
     it 'gibt die Textbezeichnung für eine Note zurück' do
       @sm.zweites_halbjahr(2013).noten[5].note.must_equal "gut"
     end

@@ -101,6 +101,16 @@ module Schild
       end
     end
 
+    # gibt die passende Bezeichnung zurück Schüler
+    def schueler_in
+      self.Geschlecht == 3 ? "Schüler" : "Schülerin"
+    end
+
+    # gibt die passende Bezeichnung zurück Studierende
+    def studierende_r
+      self.Geschlecht == 3 ? "Studierender" : "Studierende"
+    end
+
     # gibt +true+ zurück, wenn Schüler volljährig.
     def volljaehrig?
       self.Volljaehrig == "+"
