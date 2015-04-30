@@ -111,6 +111,11 @@ module Schild
       self.Geschlecht == 3 ? "Studierender" : "Studierende"
     end
 
+    # gibt die jeweilige Berufsbezeichnung nach Geschlecht zurück.
+    def berufsbezeichnung_mw
+      self.geschlecht == 3 ? self.fachklasse.bezeichnung : self.fachklasse.beschreibung_w
+    end
+
     # gibt +true+ zurück, wenn Schüler volljährig.
     def volljaehrig?
       self.Volljaehrig == "+"

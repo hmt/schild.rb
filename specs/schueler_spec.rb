@@ -52,7 +52,11 @@ describe Schueler do
   end
 
   describe 'Methoden funktionieren erwartungsgemäß' do
-    it 'returns the correct salutation' do
+    it 'gibt korrekte Berufsbezeichnung nach Geschlecht zurück' do
+      @sm.berufsbezeichnung_mw.must_include "in"
+    end
+
+    it 'gibt die korrekte Anrede zurück' do
       @sm.anrede.must_equal "Frau"
     end
 
