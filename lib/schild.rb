@@ -94,21 +94,21 @@ module Schild
 
     # gibt +Herr+ oder +Frau+ als Anrede für Schüler zurück.
     def anrede
-      if self.Geschlecht == 3
+      if self.geschlecht == 3
         return "Herr"
-      elsif self.Geschlecht == 4
+      elsif self.geschlecht == 4
         return "Frau"
       end
     end
 
     # gibt die passende Bezeichnung zurück Schüler
     def schueler_in
-      self.Geschlecht == 3 ? "Schüler" : "Schülerin"
+      self.geschlecht == 3 ? "Schüler" : "Schülerin"
     end
 
     # gibt die passende Bezeichnung zurück Studierende
     def studierende_r
-      self.Geschlecht == 3 ? "Studierender" : "Studierende"
+      self.geschlecht == 3 ? "Studierender" : "Studierende"
     end
 
     # gibt die jeweilige Berufsbezeichnung nach Geschlecht zurück.
@@ -118,12 +118,12 @@ module Schild
 
     # gibt +true+ zurück, wenn Schüler volljährig.
     def volljaehrig?
-      self.Volljaehrig == "+"
+      self.volljaehrig == "+"
     end
 
     # gibt das aktuelle Schuljahr als String im Format "2014/15" zurück.
     def schuljahr
-      jahr = self.AktSchuljahr
+      jahr = self.akt_schuljahr
       "#{jahr}/#{jahr-1999}"
     end
   end
@@ -194,19 +194,19 @@ module Schild
 
     # gibt den Namen des Klassenlehrers mit gekürztem Vornamen.
     def v_name_klassenlehrer
-      v = klassenlehrer.Vorname
-      n = klassenlehrer.Nachname
+      v = klassenlehrer.vorname
+      n = klassenlehrer.nachname
       "#{v[0]}. #{n}"
     end
 
     # gibt "Klassenlehrer" entsprechend Geschlecht zurück
     def klassenlehrer_in
-      klassenlehrer.Geschlecht == "3" ? "Klassenlehrer" : "Klassenlehrerin"
+      klassenlehrer.geschlecht == "3" ? "Klassenlehrer" : "Klassenlehrerin"
     end
 
     # gibt das aktuelle Schuljahr als String im Format "2014/15" zurück.
     def schuljahr
-      jahr = self.Jahr
+      jahr = self.jahr
       "#{jahr}/#{jahr-1999}"
     end
   end
@@ -220,7 +220,7 @@ module Schild
 
     # Notenbezeichnung als String
     def note
-      case self.NotenKrz
+      case self.noten_krz
       when "1", "1+", "1-"
         "sehr gut"
       when "2", "2+", "2-"
@@ -246,12 +246,12 @@ module Schild
 
     # Bezeichnung des Fachs
     def bezeichnung
-      fach.Bezeichnung
+      fach.bezeichnung
     end
 
     # Die Fachgruppen ID des Fachs
     def fachgruppe_ID
-      fach.Fachgruppe_ID
+      fach.fachgruppe_id
     end
   end
 
@@ -268,19 +268,19 @@ module Schild
 
     # gibt die Schulnummer zurück
     def self.schulnummer
-      self.first.SchulNr
+      self.first.schul_nr
     end
 
     def self.v_name_schulleiter
-      "#{self.first.SchulleiterVorname[0]}. #{self.first.SchulleiterName}"
+      "#{self.first.schulleiter_vorname[0]}. #{self.first.schulleiter_name}"
     end
 
     def self.schulleiter_in
-      self.first.SchulleiterGeschlecht == 3 ? "Schulleiter" : "Schulleiterin"
+      self.first.schulleiter_geschlecht == 3 ? "Schulleiter" : "Schulleiterin"
     end
 
     def self.ort
-      self.first.Ort
+      self.first.ort
     end
   end
 end
