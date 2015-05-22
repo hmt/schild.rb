@@ -43,6 +43,50 @@ describe Schueler do
       fg = @sm.zweites_halbjahr(2013).faechergruppen.flatten.count
       fg.must_equal (@sm.zweites_halbjahr(2013).noten.select{|n|n.AufZeugnis == '+'}).count
     end
+
+    it 'gibt Zulassung zurück' do
+      Schueler[166].bk_abschluss.zulassung?.must_equal true
+      Schueler[19].bk_abschluss.zulassung?.must_equal false
+    end
+
+    it 'gibt Zulassung Berufsabschluss zurück' do
+      Schueler[166].bk_abschluss.zulassung_ba?.must_equal true
+      Schueler[19].bk_abschluss.zulassung_ba?.must_equal false
+    end
+
+    it 'gibt Berufsabschluss bestanden zurück' do
+      Schueler[166].bk_abschluss.bestanden_ba?.must_equal true
+      Schueler[19].bk_abschluss.bestanden_ba?.must_equal false
+    end
+
+    it 'gibt zurück, ob Fach schriftlich' do
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.fach_schriftlich?.must_equal true
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.fach_schriftlich?.must_equal false
+    end
+
+    it 'gibt zurück, ob Fach mündlich' do
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.fach_muendlich?.must_equal true
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.fach_muendlich?.must_equal false
+    end
+
+    it 'gibt Note schriftlich zurück' do
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.note_schriftlich.must_equal 3
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_schriftlich.must_equal 0
+    end
+
+    it 'gibt Note mündlich zurück' do
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_muendlich.must_equal 6
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_muendlich.must_equal 0
+    end
+
+    it 'gibt Abschlussnote zurück' do
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_abschluss.must_equal 5
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_abschluss.must_equal 3
+    end
+
+    it 'gibt Abschlussfächer zurück' do
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.vornote.must_equal 4
+    end
   end
 
   describe 'gibt die korrekte Anzahl von Schülern über Klasse zurück' do

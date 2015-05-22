@@ -69,6 +69,8 @@ module Schild
   class Schueler < Sequel::Model(:schueler)
     many_to_one :fachklasse, :class => :Fachklasse, :key => :Fachklasse_ID
     one_to_many :abschnitte, :class => :Abschnitt
+    one_to_one :bk_abschluss, :class => :BKAbschluss
+    one_to_many :bk_abschluss_leistungen, :class => :BKAbschlussFaecher
   end
 
   # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.
@@ -97,6 +99,14 @@ module Schild
   # Assoziation für Fächer
   class Faecher < Sequel::Model(:eigeneschule_faecher)
     one_to_one :noten
+  end
+
+  class BKAbschluss < Sequel::Model(:schuelerbkabschluss)
+    one_to_one :schueler
+  end
+
+  class BKAbschlussFaecher < Sequel::Model(:schuelerbkfaecher)
+    many_to_one :schueler
   end
 
   # Schul-Tabelle
@@ -285,6 +295,61 @@ module SchildErweitert
   # Assoziation für Fächer
   class Faecher < Schild::Faecher
     include SchildTypeSaver
+  end
+
+  # Assoziation für BK-Abschlussdaten
+  class BKAbschluss < Schild::BKAbschluss
+    include SchildTypeSaver
+
+    # Ist der Schüler zugelassen?
+    def zulassung?
+      self.Zulassung == "+"
+    end
+
+    # Ist der Schüler für den Berufsabschluss zugelassen?
+    def zulassung_ba?
+      self.ZulassungBA == "+"
+    end
+
+    # Hat der Schüler den Berufsabschluss bestanden?
+    def bestanden_ba?
+      self.BestandenBA == "+"
+    end
+  end
+
+  # Assoziation für die jeweiligen BK-Prüfungsfächer
+  class BKAbschlussFaecher < Schild::BKAbschlussFaecher
+    include SchildTypeSaver
+
+    # Vornote des Prüfungsfachs
+    def vornote
+      self.Vornote.to_i
+    end
+
+    # Wurde das Fach schriftlich geprüft?
+    def fach_schriftlich?
+      self.FachSchriftlich == "+"
+    end
+
+    # Wurde das Fach mündlich geprüft?
+    def fach_muendlich?
+      self.MdlPruefung == "+"
+    end
+
+    # die schriftliche Note des Fachs
+    def note_schriftlich
+      self.NoteSchriftlich.to_i
+    end
+
+    # Die mündliche Note des Fachs
+    def note_muendlich
+      self.NoteMuendlich.to_i
+    end
+
+    # Die berechnete/festgelegte Abschlussnote für das Fach
+    def note_abschluss
+      self.NoteAbschluss.to_i
+    end
   end
 
   # Schul-Tabelle mit vereinfachtem Zugriff auf Datenfelder.
