@@ -67,10 +67,48 @@ module Schild
 
   # Stellt die Schüler-Tabelle samt Assoziationen bereit.
   class Schueler < Sequel::Model(:schueler)
-    include SchildTypeSaver
-
     many_to_one :fachklasse, :class => :Fachklasse, :key => :Fachklasse_ID
     one_to_many :abschnitte, :class => :Abschnitt
+  end
+
+  # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.
+  class Fachklasse < Sequel::Model(:eigeneschule_fachklassen)
+    one_to_many :schueler
+  end
+
+  # Assoziation für Lehrer, hauptsächlich für Klassenlehrer
+  class Klassenlehrer < Sequel::Model(:k_lehrer)
+    one_to_one :abschnitt, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
+  end
+
+  # Ist die Assoziation, die Halbjahre, sog. Abschnitte zurückgibt.
+  class Abschnitt < Sequel::Model(:schuelerlernabschnittsdaten)
+    many_to_one :schueler, :class => :Schueler, :key => :Schueler_ID
+    one_to_many :noten, :class => :Noten
+    many_to_one :klassenlehrer, :class => :Klassenlehrer, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
+  end
+
+  # Assoziation für Noten
+  class Noten < Sequel::Model(:schuelerleistungsdaten)
+    many_to_one :abschnitt, :class => :Abschnitt, :key => :Abschnitt_ID
+    many_to_one :fach, :class => :Faecher, :key => :Fach_ID
+  end
+
+  # Assoziation für Fächer
+  class Faecher < Sequel::Model(:eigeneschule_faecher)
+    one_to_one :noten
+  end
+
+  # Schul-Tabelle
+  class Schule < Sequel::Model(:eigeneschule)
+  end
+end
+
+module SchildErweitert
+  include Schild
+  # Stellt die Schüler-Tabelle samt Assoziationen bereit.
+  class Schueler < Schild::Schueler
+    include SchildTypeSaver
 
     # gibt das z.Zt. aktuelle Halbjahr zurück.
     def akt_halbjahr
@@ -129,26 +167,18 @@ module Schild
   end
 
   # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.
-  class Fachklasse < Sequel::Model(:eigeneschule_fachklassen)
+  class Fachklasse < Schild::Fachklasse
     include SchildTypeSaver
-
-    one_to_many :schueler
   end
 
   # Assoziation für Lehrer, hauptsächlich für Klassenlehrer
-  class Klassenlehrer < Sequel::Model(:k_lehrer)
+  class Klassenlehrer < Schild::Klassenlehrer
     include SchildTypeSaver
-
-    one_to_one :abschnitt, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
   end
 
   # Ist die Assoziation, die Halbjahre, sog. Abschnitte zurückgibt.
-  class Abschnitt < Sequel::Model(:schuelerlernabschnittsdaten)
+  class Abschnitt < Schild::Abschnitt
     include SchildTypeSaver
-
-    many_to_one :schueler, :class => :Schueler, :key => :Schueler_ID
-    one_to_many :noten, :class => :Noten
-    many_to_one :klassenlehrer, :class => :Klassenlehrer, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
 
     dataset_module do
       # filtert den Datensatz nach Jahr
@@ -212,11 +242,8 @@ module Schild
   end
 
   # Assoziation für Noten
-  class Noten < Sequel::Model(:schuelerleistungsdaten)
+  class Noten < Schild::Noten
     include SchildTypeSaver
-
-    many_to_one :abschnitt, :class => :Abschnitt, :key => :Abschnitt_ID
-    many_to_one :fach, :class => :Faecher, :key => :Fach_ID
 
     # Notenbezeichnung als String
     def note
@@ -256,14 +283,12 @@ module Schild
   end
 
   # Assoziation für Fächer
-  class Faecher < Sequel::Model(:eigeneschule_faecher)
+  class Faecher < Schild::Faecher
     include SchildTypeSaver
-
-    one_to_one :noten
   end
 
   # Schul-Tabelle mit vereinfachtem Zugriff auf Datenfelder.
-  class Schule < Sequel::Model(:eigeneschule)
+  class Schule < Schild::Schule
     include SchildTypeSaver
 
     # gibt die Schulnummer zurück
@@ -284,4 +309,3 @@ module Schild
     end
   end
 end
-

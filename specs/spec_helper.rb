@@ -6,4 +6,4 @@ require 'envyable'
 Envyable.load('./config/env.yml', 'local_test')
 
 require 'schild'
-include Schild
+include SchildErweitert

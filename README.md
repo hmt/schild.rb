@@ -62,6 +62,14 @@ require 'schild'
 include Schild
 ```
 
+Um jedoch alle Hilfsmethoden nutzen zu können, die das `schild`-Gem zur
+Verfügung stellt, noch besser folgenden Befehl verwenden, der seit
+Version 0.4.0 zur Verfügung steht:
+
+```ruby
+include SchildErweitert
+```
+
 Jetzt können praktisch alle Tabellen abgerufen und Daten ausgelesen werden. Dabei ist das DB-Objekt die Datenbank:
 
 ```ruby
