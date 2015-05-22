@@ -101,10 +101,12 @@ module Schild
     one_to_one :noten
   end
 
+  # Assoziation für BK-Abschluss des Schülers
   class BKAbschluss < Sequel::Model(:schuelerbkabschluss)
     one_to_one :schueler
   end
 
+  # Assoziation für die Prüfungsfächer des Schülers
   class BKAbschlussFaecher < Sequel::Model(:schuelerbkfaecher)
     many_to_one :schueler
   end
@@ -142,11 +144,7 @@ module SchildErweitert
 
     # gibt +Herr+ oder +Frau+ als Anrede für Schüler zurück.
     def anrede
-      if self.geschlecht == 3
-        return "Herr"
-      elsif self.geschlecht == 4
-        return "Frau"
-      end
+      self.geschlecht == 3 ? "Herr" : "Frau"
     end
 
     # gibt die passende Bezeichnung zurück Schüler
