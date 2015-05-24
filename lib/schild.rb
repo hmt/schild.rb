@@ -114,6 +114,10 @@ module Schild
   # Schul-Tabelle
   class Schule < Sequel::Model(:eigeneschule)
   end
+
+  # Tabelle für Schild-Nutzer
+  class Nutzer < Sequel::Model(:users)
+  end
 end
 
 module SchildErweitert
@@ -370,5 +374,28 @@ module SchildErweitert
     def self.ort
       self.first.ort
     end
+  end
+
+  # Tabelle der Schuld-Benutzer zum Abgleichen der Daten
+  class Nutzer < Schild::Nutzer
+    include SchildTypeSaver
+
+    def name
+      self.us_name
+    end
+
+    def login
+      self.us_login_name
+    end
+
+    def passwort
+      self.us_password
+    end
+    alias :password :passwort
+
+    def passwort?(passwort='')
+      passwort.split('').map{|c| (c.codepoints[0]-(c.unpack('h')[0].hex*2-15)).chr}.join == self.passwort
+    end
+    alias :password? :passwort?
   end
 end
