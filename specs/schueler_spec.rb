@@ -94,6 +94,11 @@ describe Schueler do
       # Note als String
       Schueler[381].bk_abschluss_leistungen.find{|l|l.fach_krz == "PB"}.note('note_abschluss_ba').must_equal 'mangelhaft'
     end
+
+    it 'gibt Abschlussnote-BA zurück, wenn Abschlussnoten ohne Argumente angegeben wird' do
+      Schueler[5346].bk_abschluss_leistungen.find{|l|l.fach_krz == "E"}.note(:vornote).must_equal 'ausreichend'
+      Schueler[5346].bk_abschluss_leistungen.find{|l|l.fach_krz == "E"}.note.must_equal 'mangelhaft'
+    end
   end
 
   describe 'gibt die korrekte Anzahl von Schülern über Klasse zurück' do

@@ -343,7 +343,7 @@ module SchildErweitert
       self.MdlPruefung == "+"
     end
 
-    def note(notenart)
+    def note(notenart=:note_abschluss_ba)
       note_s send(notenart)
     end
   end
