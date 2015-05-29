@@ -333,11 +333,6 @@ module SchildErweitert
     include SchildTypeSaver
     include NotenHelfer
 
-    # Vornote des Prüfungsfachs
-    def vornote
-      self.Vornote.to_i
-    end
-
     # Wurde das Fach schriftlich geprüft?
     def fach_schriftlich?
       self.FachSchriftlich == "+"
@@ -348,28 +343,8 @@ module SchildErweitert
       self.MdlPruefung == "+"
     end
 
-    # die schriftliche Note des Fachs
-    def note_schriftlich
-      self.NoteSchriftlich.to_i
-    end
-
-    # Die mündliche Note des Fachs
-    def note_muendlich
-      self.NoteMuendlich.to_i
-    end
-
-    # Die berechnete/festgelegte Abschlussnote für das Fach
-    def note_abschluss
-      self.NoteAbschluss.to_i
-    end
-
-    # Die berechnete/festgelegte Abschlussnote-BA für das Fach
-    def note_abschluss_ba
-      self.NoteAbschlussBA.to_i
-    end
-
-    def note_abschluss_ba_s
-      note_s self.note_abschluss_ba.to_s
+    def note(notenart)
+      note_s send(notenart)
     end
   end
 

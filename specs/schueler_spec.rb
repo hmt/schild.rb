@@ -70,27 +70,29 @@ describe Schueler do
     end
 
     it 'gibt Note schriftlich zurück' do
-      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.note_schriftlich.must_equal 3
-      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_schriftlich.must_equal 0
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.note_schriftlich.must_equal '3'
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_schriftlich.must_equal ''
     end
 
     it 'gibt Note mündlich zurück' do
-      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_muendlich.must_equal 6
-      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_muendlich.must_equal 0
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_muendlich.must_equal '6'
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_muendlich.must_equal ''
     end
 
     it 'gibt Abschlussnote zurück' do
-      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_abschluss.must_equal 5
-      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_abschluss.must_equal 3
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_abschluss.must_equal '5'
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSFK"}.note_abschluss.must_equal '3'
     end
 
     it 'gibt Abschlussfächer zurück' do
-      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.vornote.must_equal 4
+      Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.vornote.must_equal '4'
     end
 
-    it 'gibt Abschlussnote-BA als String zurück' do
-      Schueler[373].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_abschluss_ba_s.must_equal 'gut'
-      Schueler[381].bk_abschluss_leistungen.find{|l|l.fach_krz == "PB"}.note_abschluss_ba_s.must_equal 'mangelhaft'
+    it 'gibt Abschlussnote als String zurück' do
+      # note als Symbol
+      Schueler[373].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note(:vornote).must_equal 'gut'
+      # Note als String
+      Schueler[381].bk_abschluss_leistungen.find{|l|l.fach_krz == "PB"}.note('note_abschluss_ba').must_equal 'mangelhaft'
     end
   end
 
