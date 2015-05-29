@@ -55,6 +55,35 @@ module SchildTypeSaver
   end
 end
 
+# Mixin für Notenbezeichnungen
+module NotenHelfer
+    # Notenbezeichnung als String
+    def note_s(ziffer)
+      case ziffer
+      when "1", "1+", "1-"
+        "sehr gut"
+      when "2", "2+", "2-"
+        "gut"
+      when "3", "3+", "3-"
+        "befriedigend"
+      when "4", "4+", "4-"
+        "ausreichend"
+      when "5", "5+", "5-"
+        "mangelhaft"
+      when "6"
+        "ungenügend"
+      when 'NB'
+        "----------"
+      when "E1"
+        "mit besonderem Erfolg teilgenommen"
+      when "E2"
+        "mit Erfolg teilgenommen"
+      when 'E3'
+        "teilgenommen"
+      end
+    end
+end
+
 # Das Schild Modul, das alle Klassen für die Datenbankanbindung bereitstellt
 module Schild
   # ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
@@ -256,31 +285,11 @@ module SchildErweitert
   # Assoziation für Noten
   class Noten < Schild::Noten
     include SchildTypeSaver
+    include NotenHelfer
 
-    # Notenbezeichnung als String
+    # note in String umwandeln
     def note
-      case self.noten_krz
-      when "1", "1+", "1-"
-        "sehr gut"
-      when "2", "2+", "2-"
-        "gut"
-      when "3", "3+", "3-"
-        "befriedigend"
-      when "4", "4+", "4-"
-        "ausreichend"
-      when "5", "5+", "5-"
-        "mangelhaft"
-      when "6"
-        "ungenügend"
-      when 'NB'
-        "----------"
-      when "E1"
-        "mit besonderem Erfolg teilgenommen"
-      when "E2"
-        "mit Erfolg teilgenommen"
-      when 'E3'
-        "teilgenommen"
-      end
+      note_s self.noten_krz
     end
 
     # Bezeichnung des Fachs
@@ -322,6 +331,7 @@ module SchildErweitert
   # Assoziation für die jeweiligen BK-Prüfungsfächer
   class BKAbschlussFaecher < Schild::BKAbschlussFaecher
     include SchildTypeSaver
+    include NotenHelfer
 
     # Vornote des Prüfungsfachs
     def vornote
@@ -351,6 +361,15 @@ module SchildErweitert
     # Die berechnete/festgelegte Abschlussnote für das Fach
     def note_abschluss
       self.NoteAbschluss.to_i
+    end
+
+    # Die berechnete/festgelegte Abschlussnote-BA für das Fach
+    def note_abschluss_ba
+      self.NoteAbschlussBA.to_i
+    end
+
+    def note_abschluss_ba_s
+      note_s self.note_abschluss_ba.to_s
     end
   end
 
@@ -399,3 +418,4 @@ module SchildErweitert
     alias :password? :passwort?
   end
 end
+

@@ -87,6 +87,11 @@ describe Schueler do
     it 'gibt Abschlussfächer zurück' do
       Schueler[145].bk_abschluss_leistungen.find{|l|l.fach_krz == "GSTE"}.vornote.must_equal 4
     end
+
+    it 'gibt Abschlussnote-BA als String zurück' do
+      Schueler[373].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.note_abschluss_ba_s.must_equal 'gut'
+      Schueler[381].bk_abschluss_leistungen.find{|l|l.fach_krz == "PB"}.note_abschluss_ba_s.must_equal 'mangelhaft'
+    end
   end
 
   describe 'gibt die korrekte Anzahl von Schülern über Klasse zurück' do
