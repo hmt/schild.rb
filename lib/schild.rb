@@ -388,7 +388,7 @@ module SchildErweitert
     alias :password :passwort
 
     def passwort?(passwort='')
-      passwort.split('').map{|c| (c.codepoints[0]-(c.unpack('h')[0].hex*2-15)).chr}.join == self.passwort
+      passwort.codepoints.map{|c| ((c/16)*32+15-c).chr}.join('') == self.passwort
     end
     alias :password? :passwort?
   end
