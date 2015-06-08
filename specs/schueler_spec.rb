@@ -99,6 +99,22 @@ describe Schueler do
       Schueler[5346].bk_abschluss_leistungen.find{|l|l.fach_krz == "E"}.note(:vornote).must_equal 'ausreichend'
       Schueler[5346].bk_abschluss_leistungen.find{|l|l.fach_krz == "E"}.note.must_equal 'mangelhaft'
     end
+
+    it 'gibt die Sprachfolge als Niveau zurück' do
+      skip
+      # in der Test-Datenbank sind keine Sprachenfolgen eingetragen, daher ist das RN ""
+      Schueler[2072].halbjahr(2013,2).noten.find{|l|l.fach_id == 18}.fach.sprachenfolge.referenzniveau.must_equal ''
+    end
+
+    it 'gibt Vermerke für Schüler als Array zurück' do
+      @sm.vermerke.must_be_instance_of Array
+    end
+
+    it 'gibt Vermerk als String zurück' do
+      skip
+      # Leider keine Vermerke in der Testdatenbank eingetragen
+      @sm.vermerke.first.must_be_instance_of String
+    end
   end
 
   describe 'gibt die korrekte Anzahl von Schülern über Klasse zurück' do

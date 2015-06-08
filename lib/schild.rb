@@ -100,6 +100,7 @@ module Schild
     one_to_many :abschnitte, :class => :Abschnitt
     one_to_one :bk_abschluss, :class => :BKAbschluss
     one_to_many :bk_abschluss_leistungen, :class => :BKAbschlussFaecher
+    one_to_many :vermerke, :class => :Vermerke
   end
 
   # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.
@@ -128,6 +129,7 @@ module Schild
   # Assoziation für Fächer
   class Faecher < Sequel::Model(:eigeneschule_faecher)
     one_to_one :noten
+    one_to_one :sprachenfolge, :class => :Sprachenfolge, :key => :Fach_ID
   end
 
   # Assoziation für BK-Abschluss des Schülers
@@ -138,6 +140,16 @@ module Schild
   # Assoziation für die Prüfungsfächer des Schülers
   class BKAbschlussFaecher < Sequel::Model(:schuelerbkfaecher)
     many_to_one :schueler
+  end
+
+  # Assoziation für die bisher erreichten Sprachniveaus
+  class Sprachenfolge < Sequel::Model(:schuelersprachenfolge)
+    one_to_one :Faecher
+  end
+
+  # Vermerke von Schülern
+  class Vermerke < Sequel::Model(:schuelervermerke)
+    many_to_one :Schueler
   end
 
   # Schul-Tabelle
@@ -346,6 +358,14 @@ module SchildErweitert
     def note(notenart=:note_abschluss_ba)
       note_s send(notenart)
     end
+  end
+
+  class Sprachenfolge < Schild::Sprachenfolge
+    include SchildTypeSaver
+  end
+
+  class Vermerke < Schild::Vermerke
+    include SchildTypeSaver
   end
 
   # Schul-Tabelle mit vereinfachtem Zugriff auf Datenfelder.
