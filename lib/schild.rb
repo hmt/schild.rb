@@ -408,9 +408,13 @@ module SchildErweitert
     alias :password :passwort
 
     def passwort?(passwort='')
-      passwort.codepoints.map{|c| ((c/16)*32+15-c).chr}.join('') == self.passwort
+      crypt(passwort) == self.passwort
     end
     alias :password? :passwort?
+
+    def crypt(passwort)
+      passwort.codepoints.map{|c| ((c/16)*32+15-c).chr}.join('')
+    end
   end
 end
 
