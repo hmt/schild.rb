@@ -95,11 +95,6 @@ describe Schueler do
       Schueler[381].bk_abschluss_leistungen.find{|l|l.fach_krz == "PB"}.note('note_abschluss_ba').must_equal 'mangelhaft'
     end
 
-    it 'gibt Abschlussnote-BA zurück, wenn Abschlussnoten ohne Argumente angegeben wird' do
-      Schueler[5346].bk_abschluss_leistungen.find{|l|l.fach_krz == "E"}.note(:vornote).must_equal 'ausreichend'
-      Schueler[5346].bk_abschluss_leistungen.find{|l|l.fach_krz == "E"}.note.must_equal 'mangelhaft'
-    end
-
     it 'gibt die Sprachfolge als Niveau zurück' do
       skip
       # in der Test-Datenbank sind keine Sprachenfolgen eingetragen, daher ist das RN ""
@@ -114,6 +109,10 @@ describe Schueler do
       skip
       # Leider keine Vermerke in der Testdatenbank eingetragen
       @sm.vermerke.first.must_be_instance_of String
+    end
+
+    it 'gibt bk_abschluss_leistung mit Fachbezeichnung zurück' do
+      Schueler[373].bk_abschluss_leistungen.find{|l|l.fach_krz == "M"}.fach.bezeichnung.must_equal "Mathematik"
     end
   end
 
