@@ -252,7 +252,7 @@ module SchildErweitert
 
     # Hilfsmethode für die folgenden Methoden
     def faecher_nach_id(id)
-      noten.sort_by{ |n| n.fach.SortierungS2 }.select{ |n| n.fach.Fachgruppe_ID == id && n.AufZeugnis == '+' }
+      noten.select{ |n| n.fach.Fachgruppe_ID == id && n.AufZeugnis == '+' }.sort_by{ |n| n.fach.SortierungS2 }
     end
 
     # wählt alle berufsübergreifenden Fächer des gewählten Schülers in angegeben Halbjahr.
