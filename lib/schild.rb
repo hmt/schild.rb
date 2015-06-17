@@ -130,7 +130,6 @@ module Schild
   class Faecher < Sequel::Model(:eigeneschule_faecher)
     one_to_one :noten
     one_to_one :sprachenfolge, :class => :Sprachenfolge, :key => :Fach_ID
-    one_to_one :BKAbschlussFaecher
   end
 
   # Assoziation für BK-Abschluss des Schülers
@@ -141,7 +140,6 @@ module Schild
   # Assoziation für die Prüfungsfächer des Schülers
   class BKAbschlussFaecher < Sequel::Model(:schuelerbkfaecher)
     many_to_one :schueler
-    one_to_one :fach, :class => :Faecher, :primary_key => :Fach_ID, :key => :ID
   end
 
   # Assoziation für die bisher erreichten Sprachniveaus
@@ -357,7 +355,7 @@ module SchildErweitert
       self.MdlPruefung == "+"
     end
 
-    def note(notenart)
+    def note(notenart=:note_abschluss_ba)
       note_s send(notenart)
     end
   end
