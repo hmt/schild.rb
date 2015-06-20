@@ -100,6 +100,8 @@ module Schild
     one_to_many :abschnitte, :class => :Abschnitt
     one_to_one :bk_abschluss, :class => :BKAbschluss
     one_to_many :bk_abschluss_leistungen, :class => :BKAbschlussFaecher
+    one_to_one :abi_abschluss, :class => :AbiAbschluss
+    one_to_many :abi_abschluss_leistungen, :class => :AbiAbschlussFaecher
     one_to_many :vermerke, :class => :Vermerke
   end
 
@@ -128,7 +130,9 @@ module Schild
 
   # Assoziation für Fächer
   class Faecher < Sequel::Model(:eigeneschule_faecher)
+    #siehe abi_...
     one_to_one :noten
+    one_to_many :abi_abschluss_leistungen
     one_to_one :sprachenfolge, :class => :Sprachenfolge, :key => :Fach_ID
   end
 
@@ -140,6 +144,17 @@ module Schild
   # Assoziation für die Prüfungsfächer des Schülers
   class BKAbschlussFaecher < Sequel::Model(:schuelerbkfaecher)
     many_to_one :schueler
+  end
+
+  # Assoziation für Abi-Abschluss des Schülers
+  class AbiAbschluss < Sequel::Model(:schuelerabitur)
+    one_to_one :schueler
+  end
+
+  # Assoziation für die Abifächer des Schülers
+  class AbiAbschlussFaecher < Sequel::Model(:schuelerabifaecher)
+    many_to_one :schueler
+    many_to_one :fach, :class => :Faecher, :key => :Fach_ID
   end
 
   # Assoziation für die bisher erreichten Sprachniveaus
@@ -356,6 +371,21 @@ module SchildErweitert
     end
 
     def note(notenart=:note_abschluss_ba)
+      note_s send(notenart)
+    end
+  end
+
+  # Assoziation für Abi-Abschlussdaten
+  class AbiAbschluss < Schild::AbiAbschluss
+    include SchildTypeSaver
+  end
+
+  # Assoziation für die jeweiligen Abi-Prüfungsfächer
+  class AbiAbschlussFaecher < Schild::AbiAbschlussFaecher
+    include SchildTypeSaver
+    include NotenHelfer
+
+    def note(notenart)
       note_s send(notenart)
     end
   end

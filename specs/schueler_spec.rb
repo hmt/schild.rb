@@ -115,6 +115,8 @@ describe Schueler do
       # Leider keine Vermerke in der Testdatenbank eingetragen
       @sm.vermerke.first.must_be_instance_of String
     end
+
+    #schuelerabifaecher kann wegen mangelnder daten nicht getestet werden
   end
 
   describe 'gibt die korrekte Anzahl von Schülern über Klasse zurück' do
