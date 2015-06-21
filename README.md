@@ -47,7 +47,7 @@ Die oben angegebene Datei wird nun verwendet, um auf die `schild-test`-Datenbank
 
 ```ruby
 require 'envyable'
-Envyable.load('./config/env.yml', 'local_test')
+Envyable.load('./config/env.yml', 'testing')
 require 'schild'
 ```
 
@@ -57,7 +57,7 @@ Nun sollte noch das `Schild`-Modul geladen werden, das die Verwendung von  `schi
         
 ```ruby
 require 'envyable'
-Envyable.load('./config/env.yml', 'local_test')
+Envyable.load('./config/env.yml', 'testing')
 require 'schild'
 include Schild
 ```
