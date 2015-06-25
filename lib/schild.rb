@@ -73,7 +73,7 @@ module NotenHelfer
       when "6"
         "ungenügend"
       when 'NB'
-        "----------"
+        "––––––"
       when "E1"
         "mit besonderem Erfolg teilgenommen"
       when "E2"
