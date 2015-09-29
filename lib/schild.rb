@@ -216,6 +216,10 @@ module SchildErweitert
     def volljaehrig?
       self.volljaehrig == "+"
     end
+
+    def foto_vorhanden?
+      self.foto_vorhanden == "+"
+    end
   end
 
   # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.

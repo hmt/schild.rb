@@ -138,6 +138,10 @@ describe Schueler do
       @sm.volljaehrig?.must_equal true
     end
 
+    it 'gibt zurück, ob ein Foto vorhanden ist' do
+      @sm.foto_vorhanden?.must_equal false
+    end
+
     it 'gibt passende Bezeichnung Schüler oder Schülerin zurück' do
       @sm.schueler_in.must_equal "Schülerin"
       Schueler[24].schueler_in.must_equal "Schüler"
