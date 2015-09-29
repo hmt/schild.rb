@@ -18,30 +18,30 @@ describe Schueler do
     end
 
     it 'geben Noten aus dem angegebenen Halbjahr und Jahr zurück (via Lernabschnitte und Leistungen)' do
-      @sm.erstes_halbjahr(2013).noten.first.ID.must_equal 163701
+      @sm.halbjahr(2013,1).noten.first.ID.must_equal 163701
     end
 
     it 'gibt Konferenzdatum zurück (Lernabschnitte)' do
       # offenbar keine in der Testdatenbank eingetragen
       # deshalb Default-Objekt anfordern
-      @sm.erstes_halbjahr(2013).konferenzdatum.must_be_instance_of DateTime
+      @sm.halbjahr(2013,1).konferenzdatum.must_be_instance_of DateTime
     end
 
     it 'gibt berufsbezogene Fächer aus den angegebenen Lernabschnitten zurück' do
-      @sm.zweites_halbjahr(2013).berufsbezogen.map{|n|n.fach.FachKrz}.must_include 'FF'
+      @sm.halbjahr(2013,2).berufsbezogen.map{|n|n.fach.FachKrz}.must_include 'FF'
     end
 
     it 'gibt berufsübergreifende Fächer aus den angegebenen Lernabschnitten zurück' do
-      @sm.zweites_halbjahr(2013).berufsuebergreifend.map{|n|n.fach.FachKrz}.must_include 'D'
+      @sm.halbjahr(2013,2).berufsuebergreifend.map{|n|n.fach.FachKrz}.must_include 'D'
     end
 
     it 'gibt Fächer aus dem Differenzierungsbereich zurück über angegebenen Lernabschnitt' do
-      Schueler[394].erstes_halbjahr(2007).differenzierungsbereich.map{|n|n.fach.FachKrz}.must_include 'CHDIFF'
+      Schueler[394].halbjahr(2007,1).differenzierungsbereich.map{|n|n.fach.FachKrz}.must_include 'CHDIFF'
     end
 
     it 'gibt Fächer aus allen Fächergruppen zurück' do
-      fg = @sm.zweites_halbjahr(2013).faechergruppen.flatten.count
-      fg.must_equal (@sm.zweites_halbjahr(2013).noten.select{|n|n.AufZeugnis == '+'}).count
+      fg = @sm.halbjahr(2013,2).faechergruppen.flatten.count
+      fg.must_equal (@sm.halbjahr(2013,2).noten.select{|n|n.AufZeugnis == '+'}).count
     end
 
     it 'gibt Zulassung zurück' do
@@ -138,10 +138,6 @@ describe Schueler do
       @sm.volljaehrig?.must_equal true
     end
 
-    it 'gibt ein zusammengesetztes Datum des Schuljahres zurück' do
-      @sm.schuljahr.must_equal "2014/15"
-    end
-
     it 'gibt passende Bezeichnung Schüler oder Schülerin zurück' do
       @sm.schueler_in.must_equal "Schülerin"
       Schueler[24].schueler_in.must_equal "Schüler"
@@ -153,38 +149,38 @@ describe Schueler do
     end
 
     it 'gibt die Textbezeichnung für eine Note zurück' do
-      @sm.zweites_halbjahr(2013).noten[5].note.must_equal "gut"
+      @sm.halbjahr(2013,2).noten[5].note.must_equal "gut"
     end
 
     it 'gibt die Textbezeichnung auch bei ungeraden Noten zurück' do
-      Schueler[178].erstes_halbjahr(2010).noten[0].note.must_equal "mangelhaft"
-      Schueler[178].erstes_halbjahr(2010).noten[0].NotenKrz.must_equal "5-"
+      Schueler[178].halbjahr(2010,1).noten[0].note.must_equal "mangelhaft"
+      Schueler[178].halbjahr(2010,1).noten[0].NotenKrz.must_equal "5-"
     end
 
     it 'gibt die volle Fachbezeichnung zurück' do
-      @sm.zweites_halbjahr(2013).noten[5].bezeichnung.must_equal "Farb- und Formveränderung"
+      @sm.halbjahr(2013,2).noten[5].bezeichnung.must_equal "Farb- und Formveränderung"
     end
 
     it 'gibt die korrekte Fachgruppen_ID zurück' do
-      @sm.zweites_halbjahr(2013).noten[5].fachgruppe_ID.must_equal 20
+      @sm.halbjahr(2013,2).noten[5].fachgruppe_ID.must_equal 20
     end
 
     it 'gibt den Namen des Klassenlehrers zurück' do
-      @sm.zweites_halbjahr(2013).v_name_klassenlehrer.must_equal "P. Ronnewinkel"
+      @sm.halbjahr(2013,2).v_name_klassenlehrer.must_equal "P. Ronnewinkel"
     end
 
     it 'gibt an, ob Klassenlehrer/in' do
-      @sm.zweites_halbjahr(2013).klassenlehrer_in.must_equal "Klassenlehrer"
+      @sm.halbjahr(2013,2).klassenlehrer_in.must_equal "Klassenlehrer"
     end
 
     it 'gibt das zweite Halbjahr zurück' do
-      @sm.zweites_halbjahr(2013).Abschnitt.must_equal 2
-      @sm.zweites_halbjahr(2013).Jahr.must_equal 2013
+      @sm.halbjahr(2013,2).Abschnitt.must_equal 2
+      @sm.halbjahr(2013,2).Jahr.must_equal 2013
     end
 
     it 'gibt das erste Halbjahr zurück' do
-      @sm.erstes_halbjahr(2014).Abschnitt.must_equal 1
-      @sm.erstes_halbjahr(2014).Jahr.must_equal 2014
+      @sm.halbjahr(2014,1).Abschnitt.must_equal 1
+      @sm.halbjahr(2014,1).Jahr.must_equal 2014
     end
 
     it 'gibt das aktuelle Halbjahr zurück' do

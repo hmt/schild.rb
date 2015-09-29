@@ -187,16 +187,6 @@ module SchildErweitert
       abschnitte.last
     end
 
-    # gibt das erste Halbjahr von +jahr+ zurück.
-    def erstes_halbjahr(jahr)
-      halbjahr(jahr, 1)
-    end
-
-    # gibt das zweite Halbjahr von +jahr+ zurück.
-    def zweites_halbjahr(jahr)
-      halbjahr(jahr, 2)
-    end
-
     # gibt aus +jahr+ das Halbjahr +1+ oder +2+ zurück.
     def halbjahr(jahr, abschnitt)
       abschnitte_dataset.where(:jahr => jahr, :abschnitt => abschnitt).first
@@ -225,12 +215,6 @@ module SchildErweitert
     # gibt +true+ zurück, wenn Schüler volljährig.
     def volljaehrig?
       self.volljaehrig == "+"
-    end
-
-    # gibt das aktuelle Schuljahr als String im Format "2014/15" zurück.
-    def schuljahr
-      jahr = self.akt_schuljahr
-      "#{jahr}/#{jahr-1999}"
     end
   end
 

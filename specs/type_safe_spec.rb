@@ -16,8 +16,8 @@ describe Schueler do
     end
 
     it 'gibt 0 bei fehlendem Integer zurück' do
-      Schueler[6176].erstes_halbjahr(2014).sum_fehl_std.must_equal 0
-      Schueler[6176].erstes_halbjahr(2014).SumFehlStd.must_equal nil
+      Schueler[6176].halbjahr(2014,1).sum_fehl_std.must_equal 0
+      Schueler[6176].halbjahr(2014,1).SumFehlStd.must_equal nil
     end
   end
 
