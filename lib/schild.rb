@@ -213,6 +213,12 @@ module SchildErweitert
       self.volljaehrig == "+"
     end
 
+    # gibt an, ob der Schüler zu einem Zeitpunkt *datum* volljährig war.
+    def volljaehrig_bei?(datum)
+      geb, datum = self.geburtsdatum.to_date, datum.to_date
+      (datum.year - geb.year - ((datum.month > geb.month || (datum.month == geb.month && datum.day >= geb.day)) ? 0 : 1)) >= 18
+    end
+
     def foto_vorhanden?
       self.foto_vorhanden == "+"
     end
