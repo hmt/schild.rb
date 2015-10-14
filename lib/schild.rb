@@ -58,31 +58,31 @@ end
 
 # Mixin für Notenbezeichnungen
 module NotenHelfer
-    # Notenbezeichnung als String
-    def note_s(ziffer)
-      case ziffer
-      when "1", "1+", "1-"
-        "sehr gut"
-      when "2", "2+", "2-"
-        "gut"
-      when "3", "3+", "3-"
-        "befriedigend"
-      when "4", "4+", "4-"
-        "ausreichend"
-      when "5", "5+", "5-"
-        "mangelhaft"
-      when "6"
-        "ungenügend"
-      when 'NB'
-        "––––––"
-      when "E1"
-        "mit besonderem Erfolg teilgenommen"
-      when "E2"
-        "mit Erfolg teilgenommen"
-      when 'E3'
-        "teilgenommen"
-      end
+  # Notenbezeichnung als String
+  def note_s(ziffer)
+    case ziffer
+    when "1", "1+", "1-"
+      "sehr gut"
+    when "2", "2+", "2-"
+      "gut"
+    when "3", "3+", "3-"
+      "befriedigend"
+    when "4", "4+", "4-"
+      "ausreichend"
+    when "5", "5+", "5-"
+      "mangelhaft"
+    when "6"
+      "ungenügend"
+    when 'NB'
+      "––––––"
+    when "E1"
+      "mit besonderem Erfolg teilgenommen"
+    when "E2"
+      "mit Erfolg teilgenommen"
+    when 'E3'
+      "teilgenommen"
     end
+  end
 end
 
 # Das Schild Modul, das alle Klassen für die Datenbankanbindung bereitstellt
@@ -99,6 +99,7 @@ module Schild
     one_to_one :abi_abschluss, :class => :AbiAbschluss
     one_to_many :abi_abschluss_leistungen, :class => :AbiAbschlussFaecher
     one_to_many :vermerke, :class => :Vermerke
+    one_to_one :schuelerfoto, :class => :Schuelerfotos
   end
 
   # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.
@@ -163,6 +164,11 @@ module Schild
     many_to_one :Schueler
   end
 
+  # Schülerfotos als jpg
+  class Schuelerfotos < Sequel::Model(:schuelerfotos)
+    one_to_one :schueler
+  end
+
   # Schul-Tabelle
   class Schule < Sequel::Model(:eigeneschule)
   end
@@ -219,8 +225,14 @@ module SchildErweitert
       (datum.year - geb.year - ((datum.month > geb.month || (datum.month == geb.month && datum.day >= geb.day)) ? 0 : 1)) >= 18
     end
 
+    # fragt ab, ob in Schild ein Foto als hinterlegt eingetragen ist.
     def foto_vorhanden?
       self.foto_vorhanden == "+"
+    end
+
+    # gibt, wenn vorhanden, ein Foto als jpg-String zurück, ansonsten nil.
+    def foto
+      self.foto_vorhanden? ? self.schuelerfoto.foto : nil
     end
   end
 
@@ -385,6 +397,10 @@ module SchildErweitert
   end
 
   class Vermerke < Schild::Vermerke
+    include SchildTypeSaver
+  end
+
+  class Schuelerfotos < Schild::Schuelerfotos
     include SchildTypeSaver
   end
 

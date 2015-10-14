@@ -117,6 +117,12 @@ describe Schueler do
     end
 
     #schuelerabifaecher kann wegen mangelnder daten nicht getestet werden
+
+    # in der Testdatenbank sind leider keine Schülerfotos
+    it 'gibt das Schülerfoto als jpg zurück' do
+      skip
+      @sm.foto.must_be_instance_of String
+    end
   end
 
   describe 'gibt die korrekte Anzahl von Schülern über Klasse zurück' do
