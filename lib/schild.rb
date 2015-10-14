@@ -44,8 +44,9 @@ module SchildTypeSaver
   def create_null_object(klass, column)
     k = DB.schema_type_class(klass.db_schema[column][:type])
     if k.class == Array
-      # Sequel stellt :datetime als [Time, DateTime] dar
-      DateTime.new(1899)
+      # Sequel stellt :datetime als [Time, DateTime] dar, deswegen die Abfrage nach Array
+      # Schild verwendet Time Objekte, wir machen das auch
+      Time.new(1899)
     elsif k == Integer
       0
     else

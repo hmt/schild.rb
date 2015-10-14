@@ -7,8 +7,8 @@ describe Schueler do
       @sm = Schueler.where(:Status => 2, :Geloescht => "-", :Gesperrt => "-").first
     end
 
-    it 'gibt ein DateTime bei Daten zurück' do
-      @sm.geburtsdatum.must_be_instance_of DateTime
+    it 'gibt ein Time-Objekt bei Daten zurück' do
+      @sm.geburtsdatum.must_be_instance_of Time
     end
 
     it 'gibt String für Text zurück' do

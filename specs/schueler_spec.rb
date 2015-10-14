@@ -24,7 +24,7 @@ describe Schueler do
     it 'gibt Konferenzdatum zurück (Lernabschnitte)' do
       # offenbar keine in der Testdatenbank eingetragen
       # deshalb Default-Objekt anfordern
-      @sm.halbjahr(2013,1).konferenzdatum.must_be_instance_of DateTime
+      @sm.halbjahr(2013,1).konferenzdatum.must_be_instance_of Time
     end
 
     it 'gibt berufsbezogene Fächer aus den angegebenen Lernabschnitten zurück' do
