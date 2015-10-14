@@ -90,11 +90,6 @@ module Schild
   # ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
   DB = Sequel.connect(:adapter=>ENV['S_ADAPTER'], :host=>ENV['S_HOST'], :user=>ENV['S_USER'], :password=>ENV['S_PASSWORD'], :database=>ENV['S_DB'])
 
-  # Stellt eine Verbindung zu einem Schild-Server her. Sollte nur aufgerufen werden, wenn wechselnde Verbindungen nötig sind.
-  def self.connect
-    Sequel.connect(:adapter=>ENV['S_ADAPTER'], :host=>ENV['S_HOST'], :user=>ENV['S_USER'], :password=>ENV['S_PASSWORD'], :database=>ENV['S_DB'])
-  end
-
   # Stellt die Schüler-Tabelle samt Assoziationen bereit.
   class Schueler < Sequel::Model(:schueler)
     many_to_one :fachklasse, :class => :Fachklasse, :key => :Fachklasse_ID
