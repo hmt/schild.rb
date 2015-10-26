@@ -25,6 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest-rg", "~> 5"
 
   spec.add_runtime_dependency "sequel", "~> 4"
-  spec.add_runtime_dependency "mysql2", "~> 0"
   spec.add_runtime_dependency "envyable", "~> 0"
 end
