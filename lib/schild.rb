@@ -35,9 +35,16 @@ module SchildTypeSaver
   # bei include wird für jede Spalte in der Schild-Tabelle eine Ersatzmethode
   # erstellt, die bei nil ein Null-Objekt erstellt.
   def self.included(klass)
-    klass.columns.each do  |column|
+    klass.columns.each do |column|
       name = column.snake_case
-      define_method(name) { public_send(column) || create_null_object(klass, column)}
+      define_method(name) do |allow_nil=false|
+        ret = public_send(column)
+        if allow_nil || ret
+          ret
+        else
+         create_null_object(klass, column)
+        end
+      end
     end
   end
 

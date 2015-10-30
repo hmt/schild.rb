@@ -47,5 +47,21 @@ describe Schueler do
       @sm.Geburtsdatum.must_equal nil
     end
   end
+
+  describe 'allow_nil entweder true oder false' do
+    before do
+      # lade einen Standardschueler
+      @sm = Schueler.where(:Status => 2, :Geloescht => "-", :Gesperrt => "-").first
+    end
+
+    it 'gibt leer zurück, wenn default' do
+      @sm.bemerkungen.must_equal ''
+    end
+
+    it 'gibt nil zurück, wenn leer und typensicher und true bei allow_nil' do
+      @sm.bemerkungen(true).must_equal nil
+      @sm.geburtsdatum(true).must_equal nil
+    end
+  end
 end
 
