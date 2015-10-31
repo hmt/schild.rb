@@ -64,4 +64,3 @@ describe Schueler do
     end
   end
 end
-

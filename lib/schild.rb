@@ -26,6 +26,23 @@ module CoreExtensions
   end
 end
 
+# Halten wir Protokoll zu den erstellten Methoden
+# Ist brauchbar, wenn man z.B. noch extremer als der SchildTypeSaver arbeiten möchte
+module MethodLogger
+  class Methods
+    @@accessor_methods = {}
+
+    def self.add(klass, meth)
+      @@accessor_methods[klass] ||= []
+      @@accessor_methods[klass] << meth
+    end
+
+    def self.list(klass)
+      @@accessor_methods[klass]
+    end
+  end
+end
+
 # Schild hat teilweise nil in DB-Feldern. SchildTypeSaver gibt entweder einen
 # "Fehlt"-String zurück oder bei strftime das 1899 Datum zurück.
 module SchildTypeSaver
@@ -37,6 +54,8 @@ module SchildTypeSaver
   def self.included(klass)
     klass.columns.each do |column|
       name = column.snake_case
+      MethodLogger::Methods.add(klass, name)
+      # allow_nil ist als Argument optional und lässt bei +true+ alle Ergebnisse durch
       define_method(name) do |allow_nil=false|
         ret = public_send(column)
         if allow_nil || ret
