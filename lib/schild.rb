@@ -44,7 +44,7 @@ module MethodLogger
 end
 
 # Schild hat teilweise nil in DB-Feldern. SchildTypeSaver gibt entweder einen
-# "Fehlt"-String zurück oder bei strftime das 1899 Datum zurück.
+# Leer-String zurück ("") oder bei strftime das 1899 Datum zurück.
 module SchildTypeSaver
   Symbol.include CoreExtensions::Symbol
   String.include CoreExtensions::String
