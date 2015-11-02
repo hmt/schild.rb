@@ -237,6 +237,7 @@ module SchildErweitert
 
     # gibt die jeweilige Berufsbezeichnung nach Geschlecht zurück.
     def berufsbezeichnung_mw
+      return "Keine Fachklasse zugeordnet" if self.fachklasse.nil?
       self.geschlecht == 3 ? self.fachklasse.bezeichnung : self.fachklasse.beschreibung_w
     end
 
@@ -320,6 +321,7 @@ module SchildErweitert
 
     # gibt den Namen des Klassenlehrers mit gekürztem Vornamen.
     def v_name_klassenlehrer
+      return "Kein Klassenlehrer angelegt" if klassenlehrer.nil?
       v = klassenlehrer.vorname
       n = klassenlehrer.nachname
       "#{v[0]}. #{n}"
@@ -327,6 +329,7 @@ module SchildErweitert
 
     # gibt "Klassenlehrer" entsprechend Geschlecht zurück
     def klassenlehrer_in
+      return "Kein Klassenlehrer angelegt" if klassenlehrer.nil?
       klassenlehrer.geschlecht == "3" ? "Klassenlehrer" : "Klassenlehrerin"
     end
 
