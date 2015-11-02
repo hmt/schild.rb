@@ -75,6 +75,8 @@ module SchildTypeSaver
       Time.new(1899)
     elsif k == Integer
       0
+    elsif k == Float
+      0.0
     else
       # alle anderen types werden als Klasse zurückgegeben
       k.new
