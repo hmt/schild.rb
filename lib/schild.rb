@@ -59,6 +59,7 @@ module SchildTypeSaver
       define_method(name) do |allow_nil=false|
         ret = public_send(column)
         if allow_nil || ret
+          ret = ret.strftime("%d.%m.%Y") if ret.class == Time && allow_nil
           ret
         else
          create_null_object(klass, column)
@@ -250,7 +251,7 @@ module SchildErweitert
 
     # gibt an, ob der Schüler zu einem Zeitpunkt *datum* volljährig war.
     def volljaehrig_bei?(datum)
-      geb, datum = self.geburtsdatum.to_date, datum.to_date
+      geb, datum = self.Geburtsdatum.to_date, datum.to_date
       (datum.year - geb.year - ((datum.month > geb.month || (datum.month == geb.month && datum.day >= geb.day)) ? 0 : 1)) >= 18
     end
 
