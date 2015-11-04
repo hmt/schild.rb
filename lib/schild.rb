@@ -56,10 +56,11 @@ module SchildTypeSaver
       name = column.snake_case
       MethodLogger::Methods.add(klass, name)
       # allow_nil ist als Argument optional und lässt bei +true+ alle Ergebnisse durch
+      define_method(("_"+name.to_s).to_sym) {public_send(column)}
       define_method(name) do |allow_nil=false|
         ret = public_send(column)
         if allow_nil || ret
-          ret = ret.strftime("%d.%m.%Y") if ret.class == Time && allow_nil
+          ret = ret.strip if ret.class == String
           ret
         else
          create_null_object(klass, column)
@@ -251,6 +252,7 @@ module SchildErweitert
 
     # gibt an, ob der Schüler zu einem Zeitpunkt *datum* volljährig war.
     def volljaehrig_bei?(datum)
+      return if datum.nil?
       geb, datum = self.Geburtsdatum.to_date, datum.to_date
       (datum.year - geb.year - ((datum.month > geb.month || (datum.month == geb.month && datum.day >= geb.day)) ? 0 : 1)) >= 18
     end
