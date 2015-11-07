@@ -252,7 +252,7 @@ module SchildErweitert
 
     # gibt an, ob der Schüler zu einem Zeitpunkt *datum* volljährig war.
     def volljaehrig_bei?(datum)
-      return if datum.nil?
+      return Time.new(1899) if datum.nil? || self.Geburtsdatum.nil?
       geb, datum = self.Geburtsdatum.to_date, datum.to_date
       (datum.year - geb.year - ((datum.month > geb.month || (datum.month == geb.month && datum.day >= geb.day)) ? 0 : 1)) >= 18
     end
