@@ -145,8 +145,9 @@ describe Schueler do
     end
 
     it 'gibt an, ob Schüler im Vergelich zu *datum* volljährig ist' do
-      @sm.volljaehrig_bei?(@sm.halbjahr(2013,2).zeugnis_datum).must_equal false
-      Schueler[24].volljaehrig_bei?(Time.new).must_equal true
+      @sm.Geburtsdatum=Time.new(1990)
+      @sm.volljaehrig_bei?(@sm.geburtsdatum).must_equal false
+      @sm.volljaehrig_bei?(Time.now).must_equal true
     end
 
     it 'gibt zurück, ob ein Foto vorhanden ist' do
