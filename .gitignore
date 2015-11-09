@@ -13,3 +13,4 @@
 *.a
 mkmf.log
 /config/env.yml
+*.gem
