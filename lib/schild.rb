@@ -103,6 +103,7 @@ module SchildErweitert
   end
 
   # String und Symbol werden um snake_case ergänzt, das die Schild-Tabellen umbenennt
+  # Legacy-Methoden aus alten Schild-Versionen wird teilweise auch unterstützt.
   module CoreExtensions
     module String
       def snake_case
@@ -148,13 +149,13 @@ module SchildErweitert
         # allow_nil ist als Argument optional und lässt bei +true+ alle Ergebnisse durch
         define_method(("_"+name.to_s).to_sym) {public_send(column)}
         define_method(name) do |allow_nil=false|
-        ret = public_send(column)
-        if allow_nil || ret
-          ret = ret.strip if ret.class == String
-          ret
-        else
-          create_null_object(klass, column)
-        end
+          ret = public_send(column)
+          if allow_nil || ret
+            ret = ret.strip if ret.class == String
+            ret
+          else
+            create_null_object(klass, column)
+          end
         end
       end
     end
@@ -419,7 +420,6 @@ module SchildErweitert
     end
   end
 
-
   # Assoziation für die jeweiligen Abi-Prüfungsfächer
   class AbiAbschlussFaecher
     include NotenHelfer
@@ -429,21 +429,24 @@ module SchildErweitert
     end
   end
 
-  # Schul-Tabelle mit vereinfachtem Zugriff auf Datenfelder.
+  # Schul-Tabelle mit vereinfachtem Zugriff auf Datenfelder mittel class-Methoden
   class Schule
     # gibt die Schulnummer zurück
     def self.schulnummer
       self.first.schul_nr
     end
 
+    # gibt den Namen des Schulleiters als V. Name zurück
     def self.v_name_schulleiter
       "#{self.first.schulleiter_vorname[0]}. #{self.first.schulleiter_name}"
     end
 
+    # gibt die männliche bzw. weibliche Form des Schulleiters zurück
     def self.schulleiter_in
       self.first.schulleiter_geschlecht == 3 ? "Schulleiter" : "Schulleiterin"
     end
 
+    # gibt den Ort der Schule zurück
     def self.ort
       self.first.ort
     end
@@ -451,24 +454,30 @@ module SchildErweitert
 
   # Tabelle der Schuld-Benutzer zum Abgleichen der Daten
   class Nutzer
+
+    # der Nutzername
     def name
       self.us_name
     end
 
+    # der Login-Name des Nutzers
     def login
       self.us_login_name
     end
 
+    # das Passwort des Nutzers
     def passwort
       self.us_password
     end
     alias :password :passwort
 
+    # prüft, ob das angegebene Passwort mit dem gespeicherten Passwort übereinstimmt
     def passwort?(passwort='')
       crypt(passwort) == self.passwort
     end
     alias :password? :passwort?
 
+    # ver- bzw. entschlüsselt einen String mit dem Schild-Passwortalgorithmus
     def crypt(passwort)
       passwort.codepoints.map{|c| ((c/16)*32+15-c).chr}.join('')
     end

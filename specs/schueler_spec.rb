@@ -122,8 +122,6 @@ describe Schueler do
       @sm.vermerke.first.must_be_instance_of String
     end
 
-    #schuelerabifaecher kann wegen mangelnder daten nicht getestet werden
-
     # in der Testdatenbank sind leider keine Schülerfotos
     it 'gibt das Schülerfoto als jpg zurück' do
       skip
