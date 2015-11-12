@@ -118,6 +118,19 @@ module SchildErweitert
         to_s.snake_case
       end
     end
+
+    module Schueler
+      def entlassart
+        return self.entlass_art if self.respond_to?(:entlass_art)
+      end
+    end
+
+    module Fachklasse
+      def dqr_niveau
+        return self.DQR_Niveau if self.respond_to?(:DQR_Niveau)
+        "Alte Schild-Version ohne DQR-Niveau"
+      end
+    end
   end
 
   # Schild hat teilweise nil in DB-Feldern. SchildTypeSaver gibt entweder einen
@@ -223,6 +236,9 @@ module SchildErweitert
     end
     name = const_set(name, klass)
   end
+
+  Fachklasse.include CoreExtensions::Fachklasse
+  Schueler.include CoreExtensions::Schueler
 
   # Stellt die Schüler-Tabelle samt Assoziationen bereit.
   class Schueler

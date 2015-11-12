@@ -12,6 +12,12 @@ describe Schueler do
     end
   end
 
+  describe 'Legacy-Methoden funktionieren' do
+    it 'kennt entlass_art' do
+      @sm.entlassart.must_equal @sm.entlass_art
+    end
+  end
+
   describe 'Associations funktionieren Erwartungsgemäß' do
     it 'geben Fachklassenbezeichnung zurück (eigeneschule_fachklassen:Fachklassen)' do
       @sm.fachklasse.Bezeichnung.must_equal "Friseur"
