@@ -196,6 +196,22 @@ module SchildErweitert
 
   # Mixin für Notenbezeichnungen
   module NotenHelfer
+    # Noten können als Punkte abgerufen werden:
+    # note[5] => "4-"
+    # oder auch andersherum: note.index("4-") => 5
+    @note = %w[6 5- 5 5+ 4- 4 4+ 3- 3 3+ 2- 2 2+ 1- 1 1+]
+
+    def self.punkte_aus_note(note)
+      return if note.nil?
+      @note.index(note)
+    end
+
+    def self.note_aus_punkten(punkte)
+      return unless punkte && punkte.to_i.between?(0,15)
+      return if (punkte.class == String) && punkte.empty?
+      @note[punkte.to_i]
+    end
+
     # Notenbezeichnung als String
     def note_s(ziffer)
       case ziffer
