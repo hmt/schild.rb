@@ -15,6 +15,8 @@ describe NotenHelfer do
       SchildErweitert::NotenHelfer.note_aus_punkten(5).must_equal "4"
       SchildErweitert::NotenHelfer.note_aus_punkten("17").must_equal nil
       SchildErweitert::NotenHelfer.note_aus_punkten("").must_equal nil
+      SchildErweitert::NotenHelfer.note_aus_punkten("0").must_equal "6"
+      SchildErweitert::NotenHelfer.note_aus_punkten("E3").must_equal nil
     end
 
     it 'Ziffernnote als String' do

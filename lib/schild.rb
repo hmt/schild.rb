@@ -207,7 +207,7 @@ module SchildErweitert
     end
 
     def self.note_aus_punkten(punkte)
-      return unless punkte && punkte.to_i.between?(0,15)
+      return unless punkte && punkte.to_i.between?(1,15) || punkte == "0"
       return if (punkte.class == String) && punkte.empty?
       @note[punkte.to_i]
     end
