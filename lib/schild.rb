@@ -14,6 +14,8 @@ module Schild
     one_to_many :bk_abschluss_leistungen, :class => :BKAbschlussFaecher
     one_to_one :abi_abschluss, :class => :AbiAbschluss
     one_to_many :abi_abschluss_leistungen, :class => :AbiAbschlussFaecher
+    one_to_one :fhr_abschluss, :class => :FHRAbschluss
+    one_to_many :fhr_abschluss_leistungen, :class => :FHRbschlussFaecher
     one_to_many :vermerke, :class => :Vermerke
     one_to_one :schuelerfoto, :class => :Schuelerfotos
   end
@@ -66,6 +68,17 @@ module Schild
 
   # Assoziation für die Abifächer des Schülers
   class AbiAbschlussFaecher < Sequel::Model(:schuelerabifaecher)
+    many_to_one :schueler
+    many_to_one :fach, :class => :Faecher, :key => :Fach_ID
+  end
+
+  # Assoziation für FHR-Abschluss des Schülers
+  class FHRAbschluss < Sequel::Model(:schuelerfhr)
+    one_to_one :schueler
+  end
+
+  # Assoziation für die FHR-fächer des Schülers
+  class FHRAbschlussFaecher < Sequel::Model(:schuelerfhrfaecher)
     many_to_one :schueler
     many_to_one :fach, :class => :Faecher, :key => :Fach_ID
   end
@@ -445,6 +458,15 @@ module SchildErweitert
     end
   end
 
+  # Assoziation für die jeweiligen FHR-Prüfungsfächer
+  class FHRAbschlussFaecher
+    include NotenHelfer
+
+    def note(notenart)
+      note_s send(notenart)
+    end
+  end
+
   # Schul-Tabelle mit vereinfachtem Zugriff auf Datenfelder mittel class-Methoden
   class Schule
     # gibt die Schulnummer zurück
@@ -499,3 +521,4 @@ module SchildErweitert
     end
   end
 end
+
