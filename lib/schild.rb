@@ -15,7 +15,7 @@ module Schild
     one_to_one :abi_abschluss, :class => :AbiAbschluss
     one_to_many :abi_abschluss_leistungen, :class => :AbiAbschlussFaecher
     one_to_one :fhr_abschluss, :class => :FHRAbschluss
-    one_to_many :fhr_abschluss_leistungen, :class => :FHRbschlussFaecher
+    one_to_many :fhr_abschluss_leistungen, :class => :FHRAbschlussFaecher
     one_to_many :vermerke, :class => :Vermerke
     one_to_one :schuelerfoto, :class => :Schuelerfotos
   end
