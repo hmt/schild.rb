@@ -449,6 +449,21 @@ module SchildErweitert
     end
   end
 
+  # Assoziation für Abi-Abschlussdaten
+  class AbiAbschluss
+    # Ist der Schüler zugelassen?
+    def zulassung?
+      self.Zugelassen == "+"
+    end
+    alias_method :zugelassen?, :zulassung?
+
+    # Hat der Schüler die Abi-Prüfung bestanden?
+    def bestanden_abi?
+      self.PruefungBestanden == "+"
+    end
+    alias_method :pruefung_bestanden?, :bestanden_abi?
+  end
+
   # Assoziation für die jeweiligen Abi-Prüfungsfächer
   class AbiAbschlussFaecher
     include NotenHelfer
