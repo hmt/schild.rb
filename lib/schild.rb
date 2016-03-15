@@ -18,6 +18,7 @@ module Schild
     one_to_many :fhr_abschluss_leistungen, :class => :FHRAbschlussFaecher
     one_to_many :vermerke, :class => :Vermerke
     one_to_one :schuelerfoto, :class => :Schuelerfotos
+    one_to_many :sprachenfolge, :class => :Sprachenfolge
   end
 
   # Dient als Assoziation für Schüler und deren Klassenbezeichnung etc.
@@ -85,7 +86,7 @@ module Schild
 
   # Assoziation für die bisher erreichten Sprachniveaus
   class Sprachenfolge < Sequel::Model(:schuelersprachenfolge)
-    one_to_one :Faecher
+    many_to_one :fach, :class => :Faecher, :key => :Fach_ID
   end
 
   # Vermerke von Schülern
@@ -220,6 +221,7 @@ module SchildErweitert
     end
 
     def self.note_aus_punkten(punkte)
+      return punkte if ((punkte.to_i == 0) && (punkte.size > 1))
       return unless punkte && punkte.to_i.between?(1,15) || punkte == "0"
       return if (punkte.class == String) && punkte.empty?
       @note[punkte.to_i]
