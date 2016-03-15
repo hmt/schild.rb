@@ -464,6 +464,22 @@ module SchildErweitert
       self.PruefungBestanden == "+"
     end
     alias_method :pruefung_bestanden?, :bestanden_abi?
+
+    def latinum?
+      self.Latinum == "+"
+    end
+
+    def kl_latinum?
+      self.KlLatinum == "+"
+    end
+
+    def graecum?
+      self.Graecum == "+"
+    end
+
+    def hebraicum?
+      self.Hebraicum == "+"
+    end
   end
 
   # Assoziation für die jeweiligen Abi-Prüfungsfächer
