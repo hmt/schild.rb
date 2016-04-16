@@ -4,7 +4,17 @@ require 'sequel'
 # Das Schild Modul, das alle Klassen für die Datenbankanbindung bereitstellt
 module Schild
   # ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
-  DB = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
+  unless @db
+    @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
+  end
+
+  def self.connect(adapter, host, db, user, password)
+    @db = Sequel.connect("#{adapter}://#{host}/#{db}?user=#{user}&password=#{password}&zeroDateTimeBehavior=convertToNull")
+  end
+
+  def self.db
+    @db
+  end
 
   # Stellt die Schüler-Tabelle samt Assoziationen bereit.
   class Schueler < Sequel::Model(:schueler)
@@ -175,7 +185,7 @@ module SchildErweitert
     end
 
     def create_null_object(klass, column)
-      k = Schild::DB.schema_type_class(klass.db_schema[column][:type])
+      k = Schild.db.schema_type_class(klass.db_schema[column][:type])
       if k.class == Array
         # Sequel stellt :datetime als [Time, DateTime] dar, deswegen die Abfrage nach Array
         # Schild verwendet Time Objekte, wir machen das auch
