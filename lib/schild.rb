@@ -4,12 +4,10 @@ require 'sequel'
 # Das Schild Modul, das alle Klassen für die Datenbankanbindung bereitstellt
 module Schild
   # ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
-  unless @db
-    @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
-  end
+  self.connect
 
-  def self.connect(adapter, host, db, user, password)
-    @db = Sequel.connect("#{adapter}://#{host}/#{db}?user=#{user}&password=#{password}&zeroDateTimeBehavior=convertToNull")
+  def self.connect
+    @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
   end
 
   def self.db
