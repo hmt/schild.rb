@@ -230,8 +230,8 @@ module SchildErweitert
     end
 
     def self.note_aus_punkten(punkte)
-      return punkte if ((punkte.to_i == 0) && (punkte.size > 1))
       return unless punkte && punkte.to_i.between?(1,15) || punkte == "0"
+      return punkte if ((punkte.to_i == 0) && (punkte.size > 1))
       return if (punkte.class == String) && punkte.empty?
       @note[punkte.to_i]
     end
@@ -328,12 +328,12 @@ module SchildErweitert
 
     # fragt ab, ob in Schild ein Foto als hinterlegt eingetragen ist.
     def foto_vorhanden?
-      self.foto_vorhanden == "+"
+      (self.foto_vorhanden == "+") && (self.schuelerfoto.foto)
     end
 
     # gibt, wenn vorhanden, ein Foto als jpg-String zurück, ansonsten nil.
     def foto
-      self.foto_vorhanden? ? self.schuelerfoto.foto : nil
+      self.schuelerfoto.foto if self.foto_vorhanden?
     end
   end
 
