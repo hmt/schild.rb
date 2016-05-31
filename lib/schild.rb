@@ -328,7 +328,7 @@ module SchildErweitert
 
     # fragt ab, ob in Schild ein Foto als hinterlegt eingetragen ist.
     def foto_vorhanden?
-      (self.foto_vorhanden == "+") && (self.schuelerfoto.foto)
+      !!(self.schuelerfoto && self.schuelerfoto.foto)
     end
 
     # gibt, wenn vorhanden, ein Foto als jpg-String zurück, ansonsten nil.
