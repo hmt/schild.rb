@@ -534,21 +534,9 @@ module SchildErweitert
 
   # Tabelle der Schuld-Benutzer zum Abgleichen der Daten
   class Nutzer
-
-    # der Nutzername
-    def name
-      self.us_name
-    end
-
-    # der Login-Name des Nutzers
-    def login
-      self.us_login_name
-    end
-
-    # das Passwort des Nutzers
-    def passwort
-      self.us_password
-    end
+    alias :name :us_name
+    alias :login :us_login_name
+    alias :passwort :us_password
     alias :password :passwort
 
     # prüft, ob das angegebene Passwort mit dem gespeicherten Passwort übereinstimmt
