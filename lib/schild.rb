@@ -416,7 +416,7 @@ module SchildErweitert
       fach.bezeichnung
     end
 
-    # Die Fachgruppen ID des Fachs
+    # Die Fachgruppen-ID des Fachs
     def fachgruppe_ID
       fach.fachgruppe_id
     end
