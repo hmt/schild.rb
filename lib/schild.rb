@@ -146,6 +146,7 @@ module SchildErweitert
     module Schueler
       def entlassart
         return self.entlass_art if self.respond_to?(:entlass_art)
+        self.Entlassart
       end
     end
 
