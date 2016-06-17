@@ -9,11 +9,4 @@ describe Fachklasse do
       @f.schueler.must_be_instance_of Array
     end
   end
-
-  describe 'Legacy-Methoden funktionieren' do
-    it 'kennt dqr_niveau' do
-      @f.dqr_niveau.must_equal "Alte Schild-Version ohne DQR-Niveau"
-    end
-  end
-
 end
