@@ -59,6 +59,7 @@ module Schild
     one_to_one :noten
     one_to_many :abi_abschluss_leistungen
     one_to_one :sprachenfolge, :class => :Sprachenfolge, :key => :Fach_ID
+    one_to_many :gliederungen, :class => :Fach_Gliederung, :key => :Fach_ID
   end
 
   # Assoziation für BK-Abschluss des Schülers
@@ -95,6 +96,11 @@ module Schild
 
   # Assoziation für die bisher erreichten Sprachniveaus
   class Sprachenfolge < Sequel::Model(:schuelersprachenfolge)
+    many_to_one :fach, :class => :Faecher, :key => :Fach_ID
+  end
+
+  # Assoziation für die bisher erreichten Sprachniveaus
+  class Fach_Gliederung < Sequel::Model(:fach_gliederungen)
     many_to_one :fach, :class => :Faecher, :key => :Fach_ID
   end
 
