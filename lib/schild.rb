@@ -102,6 +102,7 @@ module Schild
   # Assoziation für die bisher erreichten Sprachniveaus
   class Fach_Gliederung < Sequel::Model(:fach_gliederungen)
     many_to_one :fach, :class => :Faecher, :key => :Fach_ID
+    many_to_one :fachklasse, :class => :Fachklasse, :key => :Fachklasse_ID
   end
 
   # Vermerke von Schülern
