@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.summary       = %q{Schild-API}
   spec.description   = %q{schild bietet eine Ruby-Schnittstelle zu SchilD-NRW-Datenbanken.}
   spec.homepage      = "https://github.com/hmt/schild"
-  spec.licenses      = ["Creative Commons Namensnennung 4.0 International Lizenz.", "MIT License"]
+  spec.licenses      = ["MIT"]
   spec.required_ruby_version = ">= 2.0"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -20,11 +20,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1"
-  spec.add_development_dependency "rake", "~> 10"
+  spec.add_development_dependency "rake", "~> 11"
   spec.add_development_dependency "minitest", "~> 5"
   spec.add_development_dependency "minitest-rg", "~> 5"
   spec.add_development_dependency "mysql2", "~> 0.4"
-  spec.add_development_dependency "envyable", "~> 0"
+  spec.add_development_dependency "envyable", "~> 1"
 
   spec.add_runtime_dependency "sequel", "~> 4"
 end
