@@ -45,6 +45,7 @@ module Schild
     many_to_one :schueler, :class => :Schueler, :key => :Schueler_ID
     one_to_many :noten, :class => :Noten
     many_to_one :klassenlehrer, :class => :Klassenlehrer, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
+    many_to_one :fachklasse, :class => :Fachklasse, :key => :Fachklasse_ID
   end
 
   # Assoziation für Noten
