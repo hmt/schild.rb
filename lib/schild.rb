@@ -35,6 +35,10 @@ module Schild
     one_to_many :schueler
   end
 
+  class Versetzung < Sequel::Model(:versetzung)
+    many_to_one :fachklasse, :class => :Fachklasse
+  end
+
   # Assoziation für Lehrer, hauptsächlich für Klassenlehrer
   class Klassenlehrer < Sequel::Model(:k_lehrer)
     one_to_one :abschnitt, :primary_key=>:Kuerzel, :key=>:KlassenLehrer
