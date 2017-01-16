@@ -17,7 +17,7 @@ describe Schueler do
 
     it 'gibt 0 bei fehlendem Integer zurück' do
       Schueler[6176].halbjahr(2014,1).sum_fehl_std.must_equal 0
-      Schueler[6176].halbjahr(2014,1).SumFehlStd.must_equal nil
+      Schueler[6176].halbjahr(2014,1).SumFehlStd.must_be_nil
     end
   end
 
@@ -28,7 +28,7 @@ describe Schueler do
     end
 
     it 'gibt nil zurück, wenn leer' do
-      @sm.Bemerkungen.must_equal nil
+      @sm.Bemerkungen.must_be_nil
     end
 
     it 'gibt leeren String zurück, wenn leer und typensicher' do
@@ -44,7 +44,7 @@ describe Schueler do
     end
 
     it 'gibt nil zurück, wenn Geburtsdatum leer ist' do
-      @sm.Geburtsdatum.must_equal nil
+      @sm.Geburtsdatum.must_be_nil
     end
   end
 
@@ -59,8 +59,8 @@ describe Schueler do
     end
 
     it 'gibt nil zurück, wenn leer und typensicher und true bei allow_nil' do
-      @sm.bemerkungen(true).must_equal nil
-      @sm.geburtsdatum(true).must_equal nil
+      @sm.bemerkungen(true).must_be_nil
+      @sm.geburtsdatum(true).must_be_nil
     end
   end
 end
