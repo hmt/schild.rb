@@ -3,10 +3,13 @@ require 'sequel'
 
 # Das Schild Modul, das alle Klassen für die Datenbankanbindung bereitstellt
 module Schild
+  Sequel::Model.plugin :tactical_eager_loading
+
   # ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
 
   @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
   @db.extension(:freeze_datasets)
+  @db.extension(:connection_validator)
 
   def self.connect
     @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
