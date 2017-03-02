@@ -13,9 +13,10 @@ module Schild
     @db.test_connection
   rescue
     puts "Verbindung zum Server konnte nicht hergestellt werden"
-    puts "#{retries += 1}. Verbindungsversuch in 10s"
-    sleep 10
-    retry if retries < 3
+    puts "#{retries += 1}. Verbindungsversuch in 5s (max 50 Versuche)"
+    puts "Sie können mit Strg-c abbrechen."
+    sleep 5
+    retry if retries < 50
   end
   @db.extension(:freeze_datasets)
   @db.extension(:connection_validator)
