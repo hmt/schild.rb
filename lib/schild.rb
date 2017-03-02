@@ -5,9 +5,17 @@ require 'sequel'
 module Schild
   Sequel::Model.plugin :tactical_eager_loading
 
-  # ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
+  # @db ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
 
-  @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
+  begin
+    retries ||= 0
+    @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
+  rescue
+    puts "Verbindung zum Server konnte nicht hergestellt werden"
+    puts "#{retries += 1}. Verbindungsversuch in 10s"
+    sleep 10
+    retry if retries < 3
+  end
   @db.extension(:freeze_datasets)
   @db.extension(:connection_validator)
 
