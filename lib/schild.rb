@@ -7,9 +7,10 @@ module Schild
 
   # @db ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
 
+  @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
   begin
     retries ||= 0
-    @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
+    @db.test_connection
   rescue
     puts "Verbindung zum Server konnte nicht hergestellt werden"
     puts "#{retries += 1}. Verbindungsversuch in 10s"
