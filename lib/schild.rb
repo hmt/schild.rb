@@ -1,5 +1,6 @@
 require 'schild/version'
 require 'sequel'
+require 'mysql2'
 
 # Das Schild Modul, das alle Klassen für die Datenbankanbindung bereitstellt
 module Schild
@@ -7,7 +8,9 @@ module Schild
 
   # @db ist die Datenbank-Verbindung. Alle Daten können über diese Konstante abgerufen werden
 
-  @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
+  mysql_compression = Mysql2::Client::COMPRESS if ENV["S_MYSQL_COMPRESSION"] == "true"
+  @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull",
+                       :flags => mysql_compression)
   begin
     retries ||= 0
     @db.test_connection
@@ -20,10 +23,6 @@ module Schild
   end
   @db.extension(:freeze_datasets)
   @db.extension(:connection_validator)
-
-  def self.connect
-    @db = Sequel.connect("#{ENV['S_ADAPTER']}://#{ENV['S_HOST']}/#{ENV['S_DB']}?user=#{ENV['S_USER']}&password=#{ENV['S_PASSWORD']}&zeroDateTimeBehavior=convertToNull")
-  end
 
   def self.db
     @db

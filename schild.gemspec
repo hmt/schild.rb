@@ -20,11 +20,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1"
-  spec.add_development_dependency "rake", "~> 11"
+  spec.add_development_dependency "rake", "~> 12"
   spec.add_development_dependency "minitest", "~> 5"
   spec.add_development_dependency "minitest-rg", "~> 5"
   spec.add_development_dependency "mysql2", "~> 0.4"
   spec.add_development_dependency "envyable", "~> 1"
 
-  spec.add_runtime_dependency "sequel", "~> 4"
+  spec.add_runtime_dependency "sequel", "~> 5"
 end
